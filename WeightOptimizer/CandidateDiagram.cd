@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WeightOptimizer.Genetics.Candidate&lt;TQueryType, TEntityType&gt;">
+    <Position X="8.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="WeightOptimizer.Genetics.Candidate&lt;TQueryType, TEntityType&gt;.LearningSet" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Genetics\Candidate.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAggAKAACCAABIAEAAAAEgAgAABAACQACAAACggAAAA=</HashCode>
+      <FileName>Genetics\Candidate.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="WeightOptimizer.Genetics.Candidates.ParametrizedAlignerCandidate&lt;TEntityType&gt;">
+    <Position X="4.75" Y="1" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AIhAQIEAiCAlBIAAYQIAABECAgEQEBAACIIAnAggAAQ=</HashCode>
+      <FileName>Genetics\Candidates\ParametrizedAlignerCandidate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeightOptimizer.Genetics.Candidates.ParametrizedEnsembleCandidate&lt;TEntityType&gt;">
+    <Position X="12" Y="1.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAgAAIAACCAgAIAAAAAAABEAAAgQEAAACIIAEAgAAAA=</HashCode>
+      <FileName>Genetics\Candidates\ParametrizedEnsembleCandidate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WeightOptimizer.Genetics.Candidates.ParametrizedOptimizingAlignerCandidate&lt;TEntityType&gt;">
+    <Position X="8.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAACAAAAAAAAAAAABAAAAAgAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Genetics\Candidates\ParametrizedOptimizingAlignerCandidate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

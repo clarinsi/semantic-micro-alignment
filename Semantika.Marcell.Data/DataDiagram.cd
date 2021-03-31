@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Semantika.Marcell.Data.Document">
+    <Position X="6.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAQADBAABAAAAAAggAEACAAAAAAAK0AEAABAAAA=</HashCode>
+      <FileName>Document.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Semantika.Marcell.Data.Paragraph">
+    <Position X="10.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgUCAAAgCBAABAEAAIAgAABAAAAAAAAAIgAACAABAgA=</HashCode>
+      <FileName>Paragraph.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Semantika.Marcell.Data.Section">
+    <Position X="8.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACBAAhAAAAIAgBAAAAAAgAAAAIwAACAAAAgA=</HashCode>
+      <FileName>Section.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Semantika.Marcell.Data.Sentence">
+    <Position X="12.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAACBAABAAAAIAgAABAAAAAAAAAIgAACCCBAAA=</HashCode>
+      <FileName>Sentence.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Semantika.Marcell.Data.Token">
+    <Position X="14.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAGCEAAACEAACCAAAAChAAAQEAAAAAAQAEAAEAEAQAA=</HashCode>
+      <FileName>Token.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Semantika.Marcell.Data.SimilarityData">
+    <Position X="13" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimilarityData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Semantika.Marcell.Data.IMarcellEntity">
+    <Position X="10.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACBAABAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IMarcellEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Semantika.Marcell.Data.IMarcellNestedEntity">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>IMarcellEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

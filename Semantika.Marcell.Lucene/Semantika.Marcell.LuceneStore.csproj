@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;Release2;Release3</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoNLL-UP\CoNLL-UP.csproj" />
+    <ProjectReference Include="..\Semantika.Marcell.Data\Semantika.Marcell.Data.csproj" />
+    <ProjectReference Include="..\TBXFormat\TBXFormat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lucene.Net" Version="4.8.0-beta00013" />
+    <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00013" />
+  </ItemGroup>
+
+</Project>
