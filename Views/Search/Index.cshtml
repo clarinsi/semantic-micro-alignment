@@ -1,0 +1,50 @@
+﻿@model LegalBrowser.Data.ViewModels.SearchViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string targetLang = "bg";
+    if (Model.Language == "bg")
+    {
+        targetLang = "hr";
+    }
+}
+
+<h1>Showing: <span class="count">@Model.ResultCount results</span></h1>
+@if (!String.IsNullOrWhiteSpace(Model.TranslatingText))
+{
+    <div class="search-header">
+        <h1>Translating:</h1>
+        <p>@Model.TranslatingText</p>
+    </div>
+}
+<ul class="search-results">
+    @foreach (var result in Model.Results)
+    {
+    <li class="search-result">
+        <div class="result-icon">
+            @if (result.ResultType == LegalBrowser.Data.ViewModels.SearchResultType.Document)
+            {
+                <img src="~/img/data-icon.png" />
+            }
+            else
+            {
+                <img src="~/img/reports-icon.png" />
+            }
+        </div>
+        @if (string.IsNullOrEmpty(Model.DId) || string.IsNullOrEmpty(Model.EId) || string.IsNullOrEmpty(Model.SourceLangauge))
+        {
+            <a href="/search/details?id=@result.Id&lang=@targetLang" class="result-data">
+                <h2>@result.Title</h2>
+                <span class="desc">@result.Description</span>
+            </a>
+        }
+        else
+        {
+            <a href="/search/details?id=@Model.EId&lang=@Model.SourceLangauge" class="result-data">
+                <h2>@result.Title</h2>
+                <span class="desc">@result.Description</span>
+            </a>
+        }
+    </li>
+    }
+</ul>

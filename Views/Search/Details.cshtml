@@ -1,0 +1,219 @@
+﻿@model LegalBrowser.Data.ViewModels.TranslationViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="search-result">
+    <div class="result-icon">
+        @if (Model.Result.ResultType == LegalBrowser.Data.ViewModels.SearchResultType.Document)
+        {
+            <img src="~/img/data-icon.png" />
+        }
+        else
+        {
+            <img src="~/img/reports-icon.png" />
+        }
+    </div>
+    <div class="result-data">
+        <h2>@Model.Result.Title</h2>
+        <span class="desc">@Model.Result.Description</span>
+        <div class="params">
+            <div class="lang-selector">
+                <div class="label lang-label">Target Language:&nbsp;</div>
+                <div class="lang-pair">
+                    <div class="src-lang"></div>
+                    <div class="src-lang"></div>
+                    <div class="dropdown">
+                        <button class="btn btn-tertiary dropdown-toggle" type="button" id="targetLangButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="targetLangSel" data-val="bg">BG</span>
+                            <i class="zmdi zmdi-chevron-down float-right"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="targetLangButton">
+                            <a class="dropdown-item tgt-lang-item" data-val="bg" href="#">BG</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="hr" href="#">HR</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="hu" href="#">HU</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="pl" href="#">PL</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="ro" href="#">RO</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="sk" href="#">SK</a>
+                            <a class="dropdown-item tgt-lang-item" data-val="sl" href="#">SL</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="params">
+            <button class="btn-settings btn btn-secondary">Settings</button>
+        </div>
+    </div>
+
+</div>
+
+<ul class="parallel-results">
+    @foreach (var result in Model.Translations)
+    {
+        <li class="parallel-result" data-spid="@result.SourceParagraphId" data-loaded="false">
+            <div class="left-col" data-sourceid="@result.SourceParagraphId" data-sourcelang="@result.SourceLanguage">
+                @result.SourceParagraph
+            </div>
+            <div class="table-space">
+            </div>
+            <div class="right-col">
+                <div class="loader-container">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+
+<div style="display:none">
+    <div id="parameterDialog" title="Search parameters...">
+        <table class="params-table">
+            <thead>
+                <tr><td>Area</td><td>Topic</td><td>Token</td></tr>
+            </thead>
+            <tbody>
+                <tr><td>Document Weight</td><td><input id="docTopicFlag" type="checkbox" /><input id="docTopic" type="number" step="any" /></td><td><input id="docTokenFlag" type="checkbox" /><input id="docToken" type="number" step="any" /></td></tr>
+                <tr><td>Section Weight</td><td><input id="secTopicFlag" type="checkbox" /><input id="secTopic" type="number" step="any" /></td><td><input id="secTokenFlag" type="checkbox" /><input id="secToken" type="number" step="any" /></td></tr>
+                <tr><td>Paragraph Weight</td><td><input id="parTopicFlag" type="checkbox" /><input id="parTopic" type="number" step="any" /></td><td><input id="parTokenFlag" type="checkbox" /><input id="parToken" type="number" step="any" /></td></tr>
+                <tr><td>Sentence Weight</td><td><input id="senTopicFlag" type="checkbox" /><input id="senTopic" type="number" step="any" /></td><td><input id="senTokenFlag" type="checkbox" /><input id="senToken" type="number" step="any" /></td></tr>
+                <tr><td>Document Limit</td><td><input id="docTopicLimit" type="number" step="any" /></td><td><input id="docTokenLimit" type="number" step="any" /></td></tr>
+                <tr><td>Section Limit</td><td><input id="secTopicLimit" type="number" step="any" /></td><td><input id="secTokenLimit" type="number" step="any" /></td></tr>
+                <tr><td>Paragraph Limit</td><td><input id="parTopicLimit" type="number" step="any" /></td><td><input id="parTokenLimit" type="number" step="any" /></td></tr>
+                <tr><td>Sentence Limit</td><td><input id="senTopicLimit" type="number" step="any" /></td><td><input id="senTokenLimit" type="number" step="any" /></td></tr>
+                <tr><td>Document Similarity %</td><td><input id="docSimilarityPerc" type="number" step="any" /></td></tr>
+                <tr><td>Section Similarity %</td><td><input id="secSimilarityPerc" type="number" step="any" /></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function loadVisible() {
+            $.each($('li'), function () {
+                if ($(this).attr('data-loaded') && $(this).offset().top < ($(window).scrollTop() + $(window).height() + 100)) {
+                    var sourceId = $(this).find(".left-col").data("sourceid");
+                    var sourceLang = $(this).find(".left-col").data("sourcelang");
+                    var targetLang = $("#targetLangSel").data("val");
+                    var curElement = this;
+                    $(this).removeAttr('data-loaded');
+
+                    var postData = {
+                        Id: sourceId,
+                        SourceLang: sourceLang,
+                        TargetLang: targetLang,
+                        Parameters: searchSettings,
+                        SegType: 2 
+                    }
+
+                    jQuery.ajax({
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        'type': 'POST',
+                        'url': "/search/segmenttranslation",
+                        'data': JSON.stringify(postData),
+                        'dataType': 'json',
+                        'success': function (data) {
+                            $(curElement).find(".right-col").html(data);
+                        }
+                    });
+
+                }
+            });
+        }
+
+        var searchSettings;
+        $(document).ready(function () {
+
+
+            if (sessionStorage.userSearchSettings) {
+                searchSettings = JSON.parse(sessionStorage.userSearchSettings);
+            }
+
+            $("#parameterDialog").dialog({
+                autoOpen: false,
+                modal: true,
+                resizable: false,
+                width: 640,
+                buttons: {
+                    "Ok": function () {
+
+                        searchSettings = {
+                            DocumentTopicWeight: parseFloat($("#docTopic").val())?? 0,
+                            SectionTopicWeight: parseFloat($("#secTopic").val())?? 0,
+                            ParagraphTopicWeight: parseFloat($("#parTopic").val())?? 0,
+                            SentenceTopicWeight: parseFloat($("#senTopic").val())?? 0,
+                            DocumentSingleTermWeight: parseFloat($("#docToken").val())?? 0,
+                            SectionSingleTermWeight: parseFloat($("#secToken").val())?? 0,
+                            ParagraphSingleTermWeight: parseFloat($("#parToken").val())?? 0,
+                            SentenceIATEWeight: parseFloat($("#senToken").val())?? 0,
+                            SentenceEVWeight: parseFloat($("#senToken").val())?? 0,
+                            DocumentTopicLimit: parseFloat($("#docTopicLimit").val())?? 0,
+                            SectionTopicLimit: parseFloat($("#secTopicLimit").val())?? 0,
+                            ParagraphTopicLimit: parseFloat($("#parTopicLimit").val())?? 0,
+                            SentenceTopicLimit: parseFloat($("#senTopicLimit").val())?? 0,
+                            DocumentTokenLimit: parseFloat($("#docTokenLimit").val())?? 0,
+                            SectionTokenLimit: parseFloat($("#secTokenLimit").val())?? 0,
+                            ParagraphTokenLimit: parseFloat($("#parTokenLimit").val())?? 0,
+                            SentenceIATELimit: parseFloat($("#senTokenLimit").val())?? 0,
+                            SentenceEVLimit: parseFloat($("#senTokenLimit").val())?? 0,
+                            UseDocumentSimilarity: parseFloat($("#docSimilarityPerc").val())?? 0,
+                            UseSectionSimilarity: parseFloat($("#secSimilarityPerc").val())?? 0,
+
+                            UseDocumentTokens: $("#docTokenFlag").is(":checked"),
+                            UseSectionTokens: $("#secTokenFlag").is(":checked"),
+                            UseParagraphTokens: $("#parTokenFlag").is(":checked"),
+                            UseSentenceTokens: $("#senTokenFlag").is(":checked"),
+                            UseDocumentTopics: $("#docTopicFlag").is(":checked"),
+                            UseSectionTopics: $("#secTopicFlag").is(":checked"),
+                            UseParagraphTopics: $("#parTopicFlag").is(":checked"),
+                            UseSentenceTopics: $("#senTopicFlag").is(":checked"),
+                        }
+
+                        sessionStorage.setItem('userSearchSettings', JSON.stringify(searchSettings));
+                        $(this).dialog("close");
+                    },
+                    "Cancel": function (e) {
+                        $(this).dialog("close");
+                    }
+                },
+                create: function () {
+                    $(this).closest(".ui-dialog")
+                        .find(".ui-button")
+                        .addClass("btn-primary");
+                }
+            });
+
+            $(".btn-settings").click(function () {
+                $("#parameterDialog").dialog("open");
+            });
+
+            var lang = getUrlParameter("lang");
+            if (lang) {
+                $("#targetLangSel").text($(".lang-item[data-val='" + lang + "']").text());
+                $("#targetLangSel").data("val", lang);
+            }
+
+            loadVisible();
+        });
+
+        $(window).scroll(function () {
+            loadVisible();
+        });
+
+        $(".tgt-lang-item").click(function () {
+            $("#targetLangSel").text($(this).text());
+            $("#targetLangSel").data("val", $(this).data("val"));
+
+            $.each($('li'), function () {
+                $(this).attr('data-loaded', false);
+            });
+            loadVisible();
+        });
+    </script>
+}

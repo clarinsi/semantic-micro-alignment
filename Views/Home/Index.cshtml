@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>What is MARCELL?</h1>
+<div class="m-container home-container">
+    <div class="home-box primary-box">
+        Seven large-scale suitably pre-processed (tokenized and morphologically tagged) monolingual corpora of national legislation documents classified into EUROVOC topics/descriptors and enriched with EUROVOC and IATE terms identified.
+    </div>
+    <div class="home-box">
+        <div class="image">
+            <img src="~/img/content-icon.png" />
+        </div>
+        Automatic alignement of the body of national legislations in seven countries: Bulgaria, Croatia, Hungary, Poland, Romania, Slovakia and Slovenia.
+    </div>
+    <div class="home-box">
+        <div class="image">
+            <img src="~/img/insights-icon.png" />
+        </div>
+        Comparable corpus of seven languages aligned at the topic level domains identified by EUROVOC descriptors.
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+     $(document).ready(function(){
+        $('.dropdown-toggle').dropdown()
+    });
+    </script>
+}

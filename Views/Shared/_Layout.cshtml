@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcell Corpus Browser</title>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="header-bar">
+                <div class="logo-bar">
+                    <div class="logo"><a class="logo-link" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/img/marcell-logo-h-1200.png"></a></div>
+                    <div class="cef-text float-right">Multilingual Resources for CEF.AT in the Legal Domain<a class="login-link" asp-area="Identity" asp-controller="Account" asp-action="Login"><img class="login-icon" src="~/img/login-icon.png"></a></div>
+                </div>
+                <div class="search-bar">
+                    <div class="search-box search-query sb-1">
+                        <img src="~/img/search-icon.png" />
+                        <input type="text" id="searchQuery" placeholder="Your search query" />
+                    </div>
+                    <div class="search-box sb-2">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="searchScopeButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span id="scopeSel" data-val="para">Search paragraphs</span>
+                                <i class="zmdi zmdi-chevron-down float-right"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="searchScopeButton">
+                                <a class="dropdown-item scope-item" data-val="para" href="#">Search paragraphs</a>
+                                <a class="dropdown-item scope-item" data-val="docs" href="#">Search sections</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-box sb-3">
+                        <div class="sb-left">
+                            <div class="dropdown">
+                                <button class="btn btn-tertiary dropdown-toggle" type="button" id="searchLangButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span id="langSel" data-val="bg">BG</span>
+                                    <i class="zmdi zmdi-chevron-down float-right"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="searchLangButton">
+                                    <a class="dropdown-item lang-item" data-val="bg" href="#">BG</a>
+                                    <a class="dropdown-item lang-item" data-val="hr" href="#">HR</a>
+                                    <a class="dropdown-item lang-item" data-val="hu" href="#">HU</a>
+                                    <a class="dropdown-item lang-item" data-val="pl" href="#">PL</a>
+                                    <a class="dropdown-item lang-item" data-val="ro" href="#">RO</a>
+                                    <a class="dropdown-item lang-item" data-val="sk" href="#">SK</a>
+                                    <a class="dropdown-item lang-item" data-val="sl" href="#">SL</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <button class="search-button btn btn-primary" type="button" id="searchButton">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="footer-container">
+            <div class="footer-logo-bar">
+                <div class="ec-flag"><img src="~/img/eu_flag_small.jpg"></div>
+                <div class="ec-notice">Co-financed by the European Union<br />Connecting Europe Facility</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        var scrollToAnchor = function scrollToAnchor(aid) {
+            var aTag = $(".parallel-result[data-spid='" + aid + "']");
+            $('html,body').animate({ scrollTop: aTag.offset().top }, 'slow');
+        }
+
+        $(document).ready(function () {
+            var query = getUrlParameter("query");
+            if (query) {
+                $("#searchQuery").val(query);
+            }
+
+            var scope = getUrlParameter("scope");
+            if (scope) {
+                $("#scopeSel").text($(".scope-item[data-val='" + scope + "']").text());
+                $("#scopeSel").data("val", scope);
+            }
+
+            var lang = getUrlParameter("lang");
+            if (lang) {
+                $("#langSel").text($(".lang-item[data-val='" + lang + "']").text());
+                $("#langSel").data("val", lang);
+            }
+        });
+
+        $(".scope-item").click(function () {
+            $("#scopeSel").text($(this).text());
+            $("#scopeSel").data("val", $(this).data("val"));
+        });
+        $(".lang-item").click(function () {
+            $("#langSel").text($(this).text());
+            $("#langSel").data("val", $(this).data("val"));
+        });
+        $(".search-button").click(function () {
+            var encodedQuery = encodeURIComponent($("#searchQuery").val());
+            window.location.replace("/search/index?query=" + encodedQuery + "&scope=" + $("#scopeSel").data("val") + "&lang=" + $("#langSel").data("val"));
+        });
+        $('input').keyup(function (e) {
+            if (e.keyCode == 13) {
+                var encodedQuery = encodeURIComponent($("#searchQuery").val());
+                window.location.replace("/search/index?query=" + encodedQuery + "&scope=" + $("#scopeSel").data("val") + "&lang=" + $("#langSel").data("val"));
+            }
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
